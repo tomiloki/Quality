@@ -10,15 +10,13 @@ from pathlib import Path
 import environ
 import dj_database_url
 
-ALLOWED_HOSTS = ['quality-6zx6.onrender.com']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Debug mode
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-
-# Allowed Hosts
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 # Base de datos
 DATABASES = {
