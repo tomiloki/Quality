@@ -1,0 +1,47 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="mb-4 text-pastel-strong">Productos</h1>
+<form method="get" class="row g-3 mb-4">
+  <div class="col-md-4">
+    <input type="text" name="q" class="form-control" placeholder="Buscar..." value="{{ search_query|default:'' }}">
+  </div>
+  <div class="col-md-4">
+    <select name="category" class="form-select">
+      <option value="">Todas las Categorías</option>
+      {% for cat in categories %}
+      <option value="{{ cat.name }}" {% if cat.name == selected_category %}selected{% endif %}>{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-pastel w-100">Filtrar</button>
+  </div>
+</form>
+
+<div class="row g-4">
+  {% for product in products %}
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100" style="background: #FFF5F7;">
+      {% if product.image %}
+      <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+      {% else %}
+      <img src="{% static 'img/no_image.png' %}" class="card-img-top" alt="Sin imagen">
+      {% endif %}
+      <div class="card-body text-center">
+        <h5 class="card-title text-pastel-strong">{{ product.name }}</h5>
+        <p class="card-text">${{ product.price }}</p>
+        {% if product.stock > 0 %}
+          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-pastel">Agregar al Carrito</a>
+        {% else %}
+          <p class="text-muted"><strong>Agotado</strong></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No se encontraron productos.</p>
+  {% endfor %}
+</div>
+{% endblock %}

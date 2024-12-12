@@ -1,0 +1,18 @@
+<!-- store/templates/store/checkout.html -->
+{% extends 'store/base.html' %}
+{% block title %}Finalizar Compra{% endblock %}
+{% block content %}
+<h1>Finalizar Compra</h1>
+<form method="post">
+    {% csrf_token %}
+    <label>Dirección de Envío:</label>
+    <input type="text" name="shipping_address" required><br><br>
+    <label>Método de Pago:</label>
+    <select name="payment_method">
+        <option value="tarjeta">Tarjeta de Crédito</option>
+        <option value="paypal">PayPal</option>
+        <option value="transferencia">Transferencia Bancaria</option>
+    </select><br><br>
+    <button type="submit">Comprar</button>
+</form>
+{% endblock %}

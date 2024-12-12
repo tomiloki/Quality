@@ -1,0 +1,20 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+{% block content %}
+<h1 class="mb-4 text-pastel-strong">{{ product.name }}</h1>
+{% if product.image %}
+<img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:200px;">
+{% else %}
+<img src="{% static 'img/no_image.png' %}" alt="Sin imagen" style="max-width:200px;">
+{% endif %}
+<p>Precio: ${{ product.price }}</p>
+<p>Stock: {{ product.stock }}</p>
+<p>Descripción: {{ product.description }}</p>
+{% if product.stock > 0 %}
+<a href="{% url 'add_to_cart' product.id %}" class="btn btn-pastel">Agregar al Carrito</a>
+{% else %}
+<p><strong>Agotado</strong></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,64 @@
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+:root {
+  --pastel-pink: #FBEAF2;
+  --pastel-rose: #EABAC6;
+  --pastel-text-strong: #834C69;
+  --pastel-text-normal: #4D4D4D;
+}
+
+.bg-pastel-pink {
+  background-color: var(--pastel-pink) !important;
+}
+
+.text-pastel-strong {
+  color: var(--pastel-text-strong) !important;
+}
+
+.pastel-link {
+  color: var(--pastel-text-strong) !important;
+  transition: color 0.3s ease;
+}
+.pastel-link:hover {
+  color: var(--pastel-rose) !important;
+}
+
+.btn-pastel {
+  background-color: var(--pastel-rose) !important;
+  border-color: var(--pastel-rose) !important;
+  color: var(--pastel-text-normal) !important;
+  font-weight: 500 !important;
+  transition: background-color 0.3s ease;
+}
+.btn-pastel:hover {
+  background-color: #D9AAB5 !important;
+  border-color: #D9AAB5 !important;
+}
+
+/* Ajustes para tarjetas, formularios, etc. */
+.card {
+  background: #FFF5F7 !important;
+  border: 1px solid #F2D7DD !important;
+}
+.card-title {
+  color: var(--pastel-text-strong) !important;
+  font-weight: 500 !important;
+}
+.card-text {
+  color: var(--pastel-text-normal) !important;
+}
+form input[type="text"], form select, form input[type="number"], form input[type="search"] {
+  border-radius: 5px !important;
+  border: 1px solid #DDCFC8 !important;
+  font-size: 14px;
+}
+
+a, button {
+  transition: 0.3s ease !important;
+}
+
+.navbar-brand {
+  font-size: 1.5rem !important;
+}

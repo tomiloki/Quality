@@ -1,0 +1,35 @@
+<!-- store/templates/store/admin_dashboard.html -->
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}Panel de Administración{% endblock %}
+{% block content %}
+<h1 class="mb-4 text-pastel-strong">Panel de Administración</h1>
+<p>Productos disponibles:</p>
+<table class="table">
+    <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Acciones</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category.name if product.category else 'Sin categoría'}}</td>
+        <td>${{ product.price }}</td>
+        <td>{{ product.stock }}{% if low_stock and product.stock < 5 %} <span class="badge bg-warning text-dark ms-2">Stock bajo</span>{% endif %}</td>
+        <td>
+            <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-pastel">Editar</a>
+            <a href="{% url 'delete_product' product.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="mt-4">
+    <a href="{% url 'add_product' %}" class="btn btn-pastel">Agregar Producto</a>
+    <a href="{% url 'admin_reports' %}" class="btn btn-pastel ms-2">Ver Reportes</a>
+</div>
+{% endblock %}

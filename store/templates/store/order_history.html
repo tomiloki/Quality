@@ -1,0 +1,19 @@
+<!-- store/templates/store/order_history.html -->
+{% extends 'store/base.html' %}
+{% block title %}Mis Pedidos{% endblock %}
+{% block content %}
+<h1>Historial de Pedidos</h1>
+{% if orders %}
+<ul>
+    {% for order in orders %}
+    <li>
+        Pedido #{{ order.id }} - {{ order.created_at|date:"d M Y H:i" }} - Estado: {{ order.get_status_display }}
+        <br> Total: ${{ order.total }}
+        <br><a href="{% url 'track_order' order.id %}">Ver Detalles</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No has realizado ningún pedido aún.</p>
+{% endif %}
+{% endblock %}

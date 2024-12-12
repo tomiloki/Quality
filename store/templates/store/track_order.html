@@ -1,0 +1,17 @@
+<!-- store/templates/store/track_order.html -->
+{% extends 'store/base.html' %}
+{% block title %}Seguimiento de Pedido #{{ order.id }}{% endblock %}
+{% block content %}
+<h1>Pedido #{{ order.id }}</h1>
+<p>Fecha: {{ order.created_at|date:"d M Y H:i" }}</p>
+<p>Estado: {{ order.get_status_display }}</p>
+<p>Dirección de Envío: {{ order.shipping_address }}</p>
+<p>Método de Pago: {{ order.payment_method }}</p>
+<p>Total: ${{ order.total }}</p>
+<h2>Productos</h2>
+<ul>
+    {% for item in order.items.all %}
+    <li>{{ item.quantity }}x {{ item.product.name }} - ${{ item.product.price }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
