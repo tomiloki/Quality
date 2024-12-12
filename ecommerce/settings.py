@@ -10,7 +10,7 @@ from pathlib import Path
 import environ
 import dj_database_url
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'quality-6zx6.onrender.com']
+ALLOWED_HOSTS = ['quality-6zx6.onrender.com']
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
