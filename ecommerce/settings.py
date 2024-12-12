@@ -25,11 +25,7 @@ if env_file.exists():
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG', default=False)
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",       # Para desarrollo local
-    "localhost",       # Para desarrollo local
-    "quality-6zx6.onrender.com",  # Dominio en producción
-]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 
 # Application definition
 
