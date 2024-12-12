@@ -10,11 +10,26 @@ from pathlib import Path
 import environ
 import dj_database_url
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 env = environ.Env()
-environ.Env.read_env()  # Lee el archivo .env
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    env.read_env(str(env_file))
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST', default='127.0.0.1'),
+        'PORT': env('DB_PORT', default='5432'),
+    }
+}
 
+# Habilitar localhost en ALLOWED_HOSTS
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -22,22 +37,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Base de datos
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600
-    )
-}
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-env_file = BASE_DIR / '.env'
-if env_file.exists():
-    env.read_env(str(env_file))
+# Build paths inside the project like this: BASE_DIR / 'subdi
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
