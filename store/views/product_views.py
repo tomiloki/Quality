@@ -1,12 +1,14 @@
 # store/views/product_views.py
 # store/views/product_views.py
+import logging
 from django.shortcuts import render, get_object_or_404
-# store/views/product_views.py
-from django.shortcuts import render
 from store.models import Product, Category
 from django.core.paginator import Paginator
 
+logger = logging.getLogger(__name__)
+
 def product_list(request):
+    logger.info("Entrando a la vista product_list con parámetros: %s", request.GET)
     category_name = request.GET.get('category')
     q = request.GET.get('q')
     order = request.GET.get('order')  # 'price_asc', 'price_desc', 'name_asc', 'name_desc'
@@ -15,16 +17,30 @@ def product_list(request):
 
     products = Product.objects.all()
 
+    # Filtro por categoría
     if category_name:
         products = products.filter(category__name=category_name)
+
+    # Búsqueda por nombre
     if q:
         products = products.filter(name__icontains=q)
-    if min_price:
-        products = products.filter(price__gte=min_price)
-    if max_price:
-        products = products.filter(price__lte=max_price)
 
-    # Ordenar
+    # Filtro por rango de precios
+    if min_price:
+        try:
+            min_p = float(min_price)
+            products = products.filter(price__gte=min_p)
+        except ValueError:
+            logger.warning("Valor no numérico para min_price: %s", min_price)
+
+    if max_price:
+        try:
+            max_p = float(max_price)
+            products = products.filter(price__lte=max_p)
+        except ValueError:
+            logger.warning("Valor no numérico para max_price: %s", max_price)
+
+    # Ordenamiento
     if order == 'price_asc':
         products = products.order_by('price')
     elif order == 'price_desc':
@@ -34,9 +50,11 @@ def product_list(request):
     elif order == 'name_desc':
         products = products.order_by('-name')
     else:
+        # orden por defecto por nombre asc
         products = products.order_by('name')
 
-    paginator = Paginator(products, 9)  # 9 productos por página
+    # Paginación
+    paginator = Paginator(products, 9)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -50,6 +68,8 @@ def product_list(request):
         'min_price': min_price,
         'max_price': max_price,
     }
+
+    logger.info("Product_list renderizado con éxito con %d productos.", page_obj.paginator.count)
     return render(request, 'store/product_list.html', context)
 
 

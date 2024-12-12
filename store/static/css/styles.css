@@ -62,3 +62,8 @@ a, button {
 .navbar-brand {
   font-size: 1.5rem !important;
 }
+
+.card-img-top {
+  max-height: 200px;
+  object-fit: cover;
+}

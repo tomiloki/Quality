@@ -37,27 +37,27 @@
 
 <div class="row g-4">
   {% for product in page_obj %}
-  <div class="col-md-4">
-    <div class="card border-0 shadow-sm h-100" style="background: #FFF5F7;">
-      {% if product.image %}
-      <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+<div class="col-md-4">
+  <div class="card border-0 shadow-sm h-100" style="background: #FFF5F7;">
+    {% if product.image %}
+    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="max-height: 200px; object-fit: cover;">
+    {% else %}
+    <img src="{% static 'img/no_image.png' %}" class="card-img-top" alt="Sin imagen" style="max-height: 200px; object-fit: cover;">
+    {% endif %}
+    <div class="card-body text-center">
+      <h5 class="card-title text-pastel-strong">{{ product.name }}</h5>
+      <p class="card-text">${{ product.price }}</p>
+      {% if product.stock > 0 %}
+        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-pastel">Agregar al Carrito</a>
       {% else %}
-      <img src="{% static 'img/no_image.png' %}" class="card-img-top" alt="Sin imagen">
+        <p class="text-muted"><strong>Agotado</strong></p>
       {% endif %}
-      <div class="card-body text-center">
-        <h5 class="card-title text-pastel-strong">{{ product.name }}</h5>
-        <p class="card-text">${{ product.price }}</p>
-        {% if product.stock > 0 %}
-          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-pastel">Agregar al Carrito</a>
-        {% else %}
-          <p class="text-muted"><strong>Agotado</strong></p>
-        {% endif %}
-      </div>
     </div>
   </div>
-  {% empty %}
-  <p>No se encontraron productos.</p>
-  {% endfor %}
+</div>
+{% empty %}
+<p>No se encontraron productos.</p>
+{% endfor %}
 </div>
 
 <!-- Paginación -->
