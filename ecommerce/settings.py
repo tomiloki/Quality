@@ -10,7 +10,10 @@ from pathlib import Path
 import environ
 import dj_database_url
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+env = environ.Env()
+environ.Env.read_env()  # Lee el archivo .env
+
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
 
 
 SECRET_KEY = os.getenv('SECRET_KEY')
